@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(method="POST")
+    label(for="email") Email validation
+    input#email(type="text", name="email")
+  #canvas

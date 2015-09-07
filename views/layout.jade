@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title= title
+    if process.env.NODE_ENV == 'dev'
+      link(rel='stylesheet', href='/css/main.css')
+    else
+      link(rel='stylesheet', href='/css/all.min.css')
+  body
+    block content
+
+  if process.env.NODE_ENV == 'dev'
+    script(type='text/javascript', src='/vendor/jquery/dist/jquery.js')
+    script(type='text/javascript', src='/vendor/underscore/underscore.js')
+    script(type='text/javascript', src='/vendor/backbone/backbone.js')
+    script(type='text/javascript', src='/vendor/jquery-validation/dist/jquery.validate.js')
+    script(type='text/javascript', src='/js/main.js')
+  else
+    script(type='text/javascript', src='/vendor/jquery/dist/jquery.min.js')
+    script(type='text/javascript', src='/vendor/underscore/underscore-min.js')
+    script(type='text/javascript', src='/vendor/backbone/backbone.min.js')
+    script(type='text/javascript', src='/vendor/jquery-validation/dist/jquery.validate.min.js')
+    script(type='text/javascript', src='/js/all.min.js')

@@ -1,0 +1,26 @@
+{
+  "name": "nodejs",
+  "version": "0.0.1",
+  "description": "Nodejs playground",
+  "main": "app.js",
+  "authors": [
+    "PickRelated"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "jquery-validation": "jquery-validate#~1.14.0",
+    "backbone": "~1.2.3",
+    "require": "*",
+    "underscore": "~1.8.3"
+  },
+  "devDependencies": {
+  }
+}

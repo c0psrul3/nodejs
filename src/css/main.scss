@@ -1,0 +1,31 @@
+body
+  padding: 0
+
+input
+  border: 2px solid gray
+  border-radius: 5px
+  padding: 5px 10px
+  font-size: 14px
+  outline: none
+  transition: all 200ms
+
+input.valid
+  border-color: green
+
+input.error
+  border-color: red
+
+label
+  display: block
+
+label.error
+  color: red
+
+#canvas
+  position: absolute
+  display: table
+  top: 0
+
+  div
+    position: absolute
+    opacity: .7
