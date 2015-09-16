@@ -1,9 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  form(method="POST")
+  include notes
+  form#email-val
     label(for="email") Email validation
-    input#email(type="text", name="email")
-  #canvas
+    input#email(type="text", name="email", value="test@testmail.com")
+    #canvas
+
+  form#publish(method="POST", action="/publish")
+    input(type="hidden", name="column_id", value="2")
+    label(for="text") Text
+    textarea(name="text")
+    input(type="submit")

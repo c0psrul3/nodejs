@@ -5,7 +5,7 @@
 			return exp.test(data);
 		});
 
-		$('form').validate({
+		$('form#email-val').validate({
 			rules: {
 				email: {
 					required: true,
@@ -18,9 +18,14 @@
 					trueEmail: 'Wrong email format'
 				}
 			},
-			submitHandler: function() {
+			submitHandler: function(form) {
 				return false;
 			}
+		});
+
+		$('form#publish').on('submit', function() {
+			$(this).ajaxSubmit();
+			return false;
 		});
 
 		var obj = Backbone.Model.extend({
@@ -28,7 +33,7 @@
 				'background-color': 'blue',
 				'width': '200px',
 				'height': '30px',
-				'top': '130px',
+				'top': '19px',
 				'left': '0px',
 				'el': 'undefined'
 			},
@@ -53,12 +58,18 @@
 		var squares = new col();
 		var square = new obj;
 		squares.add(square);
-		var square2 = new obj({
-			'top': '20px',
-			'height': '45px',
-			'background-color': 'red',
-			'width': '110px'
-		});
-		squares.add(square2);
+
+		subscribe();
+		function subscribe() {
+			var xhr = new XMLHttpRequest();
+
+			xhr.open('GET', '/subscribe', true);
+			xhr.onload = function() {
+				$('#notes').replaceWith(this.responseText);
+				subscribe();
+			}
+
+			xhr.send('');
+		}
 	});
 }).call(this, jQuery);

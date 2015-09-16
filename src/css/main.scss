@@ -1,7 +1,13 @@
 body
   padding: 0
 
+form
+  position: relative
+  overflow: hidden
+  display: table
+
 input
+  min-width: 175px
   border: 2px solid gray
   border-radius: 5px
   padding: 5px 10px
@@ -29,3 +35,28 @@ label.error
   div
     position: absolute
     opacity: .7
+    border-radius: 5px
+
+#notes
+  clear: both
+  display: table
+  margin-bottom: 50px
+
+  .column
+    width: 300px
+    margin-right: 50px
+    float: left
+    font-size: 14px
+    background-color: #000
+    opacity: .7
+    color: #fff
+
+    .column-title
+      padding: 10px
+      background-color: #ffea00
+      font-weight: bold
+      font-size: 16px
+      color: #000
+
+    .column-body
+      padding: 10px
