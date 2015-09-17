@@ -1,0 +1,8 @@
+#notes
+  each column in columns
+    .column(data-id=column.id)
+      .column-title #{column.name}
+      .column-body
+        .note-list
+          each row in column.rows
+            .note(data-id=row.id) #{row.text}
