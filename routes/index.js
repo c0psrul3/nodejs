@@ -1,17 +1,25 @@
 var express = require('express');
+var path = require('path');
 var router = express.Router();
 var async = require('async');
 var bodyParser = require('body-parser');
 // var promise = require('bluebird');
 var app = express();
 var clients = [];
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'u_nodejs',
-	password: 'asd123\!\@\#',
-	database: 'nodejs'
-});
+
+// var nconf = require('nconf');
+// nconf.argv().env().file({file: 'config.json'});
+var db = require('./db').db;
+var columns = require('./db').columns;
+var rows = require('./db').rows;
+
+// var mysql = require('mysql');
+// var connection = mysql.createConnection({
+// 	host: nconf.get('db:host'),
+// 	user: nconf.get('db:user'),
+// 	password: nconf.get('db:password'),
+// 	database: nconf.get('db:database')
+// });
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -60,19 +68,25 @@ app.use(bodyParser.urlencoded({extended: false}));
 router.get('/', function(req, res, next) {
 	async.waterfall([
 		function(callback) {
-			connection.query('select * from columns', function(err, result) {
-				if (err) callback(new Error('Failed getting columns: ' + err.message));
-
+			columns.findAll()
+			.then(function(result) {
 				callback(null, result);
+			})
+			.catch(function(err){
+				callback(new Error('Failed getting columns: ' + err.message));
 			});
 		},
 		function(columns, callback) {
 			async.map(columns, function(column, callback2) {
-				connection.query('select * from rows where column_id=?', column.id, function(err,rows) {
-					if (err) callback2(new Error('Failed getting rows: ' + err.message));
-
-					column.rows = rows;
+				rows.findAll({
+					where: {columnId: column.dataValues.id}
+				})
+				.then(function(result) {
+					column.dataValues.rows = result;
 					callback2();
+				})
+				.catch(function(err) {
+					callback2(new Error('Failed getting rows: ' + err.message));
 				});
 			}, function(err) {
 				if (err) callback(new Error('Failed getting rows: ' + err.message));
