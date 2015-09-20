@@ -7,19 +7,19 @@ var bodyParser = require('body-parser');
 var app = express();
 var clients = [];
 
-// var nconf = require('nconf');
-// nconf.argv().env().file({file: 'config.json'});
+var nconf = require('nconf');
+nconf.argv().env().file({file: 'config.json'});
 var db = require('./db').db;
 var columns = require('./db').columns;
 var rows = require('./db').rows;
 
-// var mysql = require('mysql');
-// var connection = mysql.createConnection({
-// 	host: nconf.get('db:host'),
-// 	user: nconf.get('db:user'),
-// 	password: nconf.get('db:password'),
-// 	database: nconf.get('db:database')
-// });
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+	host: nconf.get('db:host'),
+	user: nconf.get('db:user'),
+	password: nconf.get('db:password'),
+	database: nconf.get('db:database')
+});
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -68,7 +68,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 router.get('/', function(req, res, next) {
 	async.waterfall([
 		function(callback) {
-			columns.findAll()
+			columns.findAll({raw: true})
 			.then(function(result) {
 				callback(null, result);
 			})
@@ -79,10 +79,11 @@ router.get('/', function(req, res, next) {
 		function(columns, callback) {
 			async.map(columns, function(column, callback2) {
 				rows.findAll({
-					where: {columnId: column.dataValues.id}
+					where: {columnId: column.id},
+					raw: true
 				})
 				.then(function(result) {
-					column.dataValues.rows = result;
+					column.rows = result;
 					callback2();
 				})
 				.catch(function(err) {

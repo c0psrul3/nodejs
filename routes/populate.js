@@ -20,7 +20,7 @@ rows.sync().then(function() {
 		{text: 'Tomatos', columnId: 1},
 		{text: 'Pencils', columnId: 1},
 		{text: 'Honey', columnId: 1},
-		{text: 'Buy groccery', columnId: 2},
+		{text: 'Buy grocery', columnId: 2},
 		{text: 'Food consultant', columnId: 3}
 	];
 
