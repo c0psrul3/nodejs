@@ -28,7 +28,8 @@
     "gulp": "~3.9.0",
     "mysql": "~2.9.0",
     "async": "~1.4.2",
-    "extend": "~3.0.0"
+    "extend": "~3.0.0",
+    "gulp-livereload": "~3.8.0"
   },
   "author": "PickRelated",
   "license": "BSD-2-Clause"

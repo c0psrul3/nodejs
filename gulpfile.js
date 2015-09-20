@@ -4,6 +4,7 @@ var uglifycss = require('gulp-uglifycss');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
+var livereload = require('gulp-livereload');
 
 gulp.task('styles', function() {
 	gulp.src('src/css/*.scss')
@@ -11,7 +12,8 @@ gulp.task('styles', function() {
 	.pipe(gulp.dest('public/css'))
 	.pipe(concat('all.min.css'))
 	.pipe(uglifycss())
-	.pipe(gulp.dest('public/css'));
+	.pipe(gulp.dest('public/css'))
+	.pipe(livereload());
 });
 
 gulp.task('scripts', function() {
@@ -19,13 +21,14 @@ gulp.task('scripts', function() {
 	.pipe(gulp.dest('public/js'))
 	.pipe(uglify()).on('error', function(){})
 	.pipe(concat('all.min.js'))
-	.pipe(gulp.dest('public/js'));
+	.pipe(gulp.dest('public/js'))
+	.pipe(livereload());
 });
 
-gulp.task('default', function() {
-	gulp.run('styles');
-	gulp.run('scripts');
-
+gulp.task('watch', function() {
+	livereload.listen();
 	gulp.watch('src/css/*.scss', ['styles']);
 	gulp.watch('src/js/*.js', ['scripts']);
 });
+
+gulp.task('default', ['styles', 'scripts', 'watch']);
