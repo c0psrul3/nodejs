@@ -1,8 +1,17 @@
 #notes
   each column in columns
     .column(data-id=column.id)
-      .column-title #{column.name}
+      .column-title
+        span #{column.name}
+        a.edit-list(href="javascript:void(0)") E
       .column-body
         .note-list
           each row in column.rows
-            .note(data-id=row.id) #{row.text}
+            .note(data-id=row.id)
+              a.delete-item(href="javascript:void(0)", data-id=row.id) D
+              span #{row.text}
+
+        form.publish(id="publish-#{column.id}", method="POST", action="/publish")
+          input(type="hidden", name="column_id", value=column.id)
+          input(type="text", name="text", placeholder="new item")
+          input(type="submit", value="V")

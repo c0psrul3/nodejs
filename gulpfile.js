@@ -25,10 +25,16 @@ gulp.task('scripts', function() {
 	.pipe(livereload());
 });
 
+gulp.task('jadeReload', function() {
+	gulp.src('views/*.jade')
+	.pipe(livereload());
+});
+
 gulp.task('watch', function() {
 	livereload.listen();
 	gulp.watch('src/css/*.scss', ['styles']);
 	gulp.watch('src/js/*.js', ['scripts']);
+	gulp.watch('views/*.jade', ['jadeReload']);
 });
 
 gulp.task('default', ['styles', 'scripts', 'watch']);

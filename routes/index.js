@@ -65,7 +65,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 // 	});
 // });
 
-router.get('/', function(req, res, next) {
+var getAllRows = function(callback) {
 	async.waterfall([
 		function(callback) {
 			columns.findAll({raw: true})
@@ -94,10 +94,17 @@ router.get('/', function(req, res, next) {
 				callback(null, columns);
 			});
 		}
-	], function (err, result) {
+	], function(err, result) {
+		callback (err, result)
+	});
+}
+
+router.get('/', function(req, res, next) {
+	getAllRows(function(err, result) {
 		if (err) return next(err);
 		res.render('index', {columns: result});
 	});
+
 });
 
 router.get('/subscribe', function(req, res, next) {
@@ -142,6 +149,25 @@ router.post('/publish', function(req, res, next) {
 			res.render('notes', {columns: result});
 		});
 		clients = [];
+	});
+});
+
+router.post('/delete', function(req, res, next) {
+	console.log(req.body.id);
+	rows.destroy({
+		where: {id: req.body.id}
+	})
+	.then(function(result) {
+		res.end(result == 1 ? 'success' : 'fail');
+	})
+	.then(function(result) {
+		getAllRows(function(err, result) {
+			if (err) return next(err);
+
+			clients.forEach(function(res) {
+				res.render('index', {columns: result});
+			});
+		});
 	});
 });
 

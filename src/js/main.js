@@ -23,9 +23,34 @@
 			}
 		});
 
-		$('form#publish').on('submit', function() {
-			$(this).ajaxSubmit();
-			return false;
+		$('body').on('click', '.edit-list', function() {
+			var $target = $(this).parents('.column-title').siblings('.column-body');
+
+			if ($(this).html() != 'OK') {
+				$(this).html('OK');
+				$target.addClass('edit');
+			} else {
+				$(this).html('E');
+				$target.removeClass('edit');
+			}
+		});
+
+		$('body').on('click', '.delete-item', function() {
+			$.ajax({
+				method: 'POST',
+				url: '/delete',
+				data: {
+					id: $(this).data('id')
+				}
+			});
+		});
+
+		$('form.publish').on('focus', 'input[type=text]', function() {
+			$(this).parents('form').addClass('active');
+		});
+
+		$('form.publish').on('blur', 'input[type=text]', function() {
+			$(this).parents('form').removeClass('active');
 		});
 
 		var obj = Backbone.Model.extend({
@@ -65,7 +90,7 @@
 
 			xhr.open('GET', '/subscribe', true);
 			xhr.onload = function() {
-				$('#notes').replaceWith(this.responseText);
+				$('#notes').replaceWith($(this.responseText).filter('#notes'));
 				subscribe();
 			}
 

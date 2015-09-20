@@ -58,5 +58,38 @@ label.error
       font-size: 16px
       color: #000
 
+      .edit-list
+        float: right
+
     .column-body
       padding: 10px
+      transition: height 200ms
+
+      .delete-item
+        display: none
+        width: 2em
+        color: #fff
+        text-decoration: none
+        float: left
+
+      &.edit
+        .delete-item
+          display: block
+
+      &:hover>form
+        display: table !important
+
+      form:not(.active)
+        display: none
+
+      input[type=text]
+        background-color: #fefefe
+        border: none
+        outline: none
+
+      input[type=submit]
+        min-width: 2em
+        width: 2em
+        float: right
+        box-sizing: border-box
+        padding: 3px 0
