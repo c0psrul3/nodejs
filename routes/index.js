@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var bodyParser = require('body-parser');
+// var promise = require('bluebird');
 var app = express();
-// var extend = require('extend');
 var clients = [];
 var mysql = require('mysql');
 var connection = mysql.createConnection({
@@ -15,7 +15,48 @@ var connection = mysql.createConnection({
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-/* GET home page. */
+// var getColumns = function() {
+// 	return new promise(function(resolve, reject) {
+// 		connection.query('select * from columns', function(err, result) {
+// 			if (err) reject(err);
+//
+// 			resolve(result);
+// 		});
+// 	});
+// }
+//
+// var getRows = function(columnId) {
+// 	console.log('getting rows for column ' + columnId);
+// 	return new promise(function(resolve, reject) {
+// 		connection.query('select * from rows where column_id=?', columnId, function(err, result) {
+// 			if (err) reject(new Error('Failed getting rows: ' + err.message));
+//
+// 			resolve(result);
+// 		});
+// 	});
+// }
+//
+// #<{(| GET home page. |)}>#
+// router.get('/', function(req, res, next) {
+// 	getColumns()
+// 	.then(function(result) {
+// 		result.forEach(function(column) {
+// 			getRows(column.id)
+// 			.then(function(columnRows) {
+// 				console.log('setting child nodes for column ' + column.id, columnRows);
+// 				column.rows = columnRows;
+// 			});
+// 		});
+// 	})
+// 	.catch(function(err) {
+// 		return err;
+// 	})
+// 	.done(function(result) {
+// 		console.log('rendering started');
+// 		res.render('index', {columns: result});
+// 	});
+// });
+
 router.get('/', function(req, res, next) {
 	async.waterfall([
 		function(callback) {
